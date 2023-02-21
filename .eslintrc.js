@@ -7,4 +7,8 @@ module.exports = {
       rootDir: ["apps/*/"],
     },
   },
+  parserOptions: {
+    project: ["packages/ui/tsconfig.json"],
+    tsconfigRootDir: __dirname,
+  },
 };
