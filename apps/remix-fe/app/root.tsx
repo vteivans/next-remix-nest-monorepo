@@ -23,6 +23,9 @@ export default function App() {
       </head>
       <body>
         <Outlet />
+        <small>
+          This comes from root.tsx as it is the layout and root of all routes.
+        </small>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
