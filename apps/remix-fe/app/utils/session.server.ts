@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
+import { createCookieSessionStorage, redirect, Session } from "@remix-run/node";
 
 import { db } from "./db.server";
 
@@ -54,4 +54,18 @@ export async function createUserSession(userId: string, redirectTo: string) {
       "Set-Cookie": await storage.commitSession(session),
     },
   });
+}
+
+export async function getUserSession(request: Request): Promise<Session> {
+  return storage.getSession(request.headers.get("Cookie"));
+}
+
+export async function getUserId(request: Request) {
+  const session = await getUserSession(request);
+  const userId = session.get("userId");
+
+  if (typeof userId !== "string") {
+    return null;
+  }
+  return userId;
 }

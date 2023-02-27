@@ -24,7 +24,7 @@ function validatePassword(password: unknown) {
 }
 
 function validateUrl(url: FormDataEntryValue): string {
-  let urls = ["/jokes", "/", "https://remix.run"];
+  let urls = ["/jokes", "/jokes/new", "/", "https://remix.run"];
   if (!(url instanceof File) && urls.includes(url)) {
     return url;
   }
@@ -37,6 +37,7 @@ export const action = async ({ request }: ActionArgs) => {
   const username = form.get("username");
   const password = form.get("password");
   const redirectTo = validateUrl(form.get("redirectTo") || "/jokes");
+
   if (
     typeof loginType !== "string" ||
     typeof username !== "string" ||
