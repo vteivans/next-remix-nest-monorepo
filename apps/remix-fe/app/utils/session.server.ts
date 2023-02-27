@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { createCookieSessionStorage, redirect, Session } from "@remix-run/node";
 
 import { db } from "./db.server";
+import { User } from "@prisma/client";
 
 type LoginForm = {
   username: string;
@@ -23,6 +24,15 @@ export async function login({ username, password }: LoginForm) {
   }
 
   return { id: user.id, username };
+}
+
+export async function logout(request: Request) {
+  const session = await getUserSession(request);
+  return redirect("/jokes", {
+    headers: {
+      "Set-Cookie": await storage.destroySession(session),
+    },
+  });
 }
 
 const sessionSecret = process.env.SESSION_SECRET;
@@ -68,4 +78,17 @@ export async function getUserId(request: Request) {
     return null;
   }
   return userId;
+}
+
+export async function getUser(
+  request: Request
+): Promise<Pick<User, "id" | "username"> | null> {
+  let userId = await getUserId(request);
+  if (!userId) {
+    return null;
+  }
+  return db.user.findUnique({
+    select: { id: true, username: true },
+    where: { id: userId },
+  });
 }
