@@ -19,6 +19,8 @@ function validateJokeName(name: string) {
 }
 
 export const action = async ({ request }: ActionArgs) => {
+  console.log("Request method", request.method);
+
   const userId = await requireUserId(request);
   const form = await request.formData();
   const name = form.get("name");
@@ -129,4 +131,12 @@ export async function requireUserId(
   }
 
   return userId;
+}
+
+export function ErrorBoundary() {
+  return (
+    <div className="error-container">
+      Something unexpected went wrong. Sorry about that.
+    </div>
+  );
 }

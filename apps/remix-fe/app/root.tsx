@@ -36,7 +36,7 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export default function App() {
+function Document({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -44,7 +44,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        {children}
         <small>
           This comes from root.tsx as it is the layout and root of all routes.
         </small>
@@ -53,5 +53,24 @@ export default function App() {
         <LiveReload />
       </body>
     </html>
+  );
+}
+
+export default function App() {
+  return (
+    <Document>
+      <Outlet />
+    </Document>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <Document>
+      <div className="error-container">
+        <h1>App Error</h1>
+        <pre>{error.message}</pre>
+      </div>
+    </Document>
   );
 }
