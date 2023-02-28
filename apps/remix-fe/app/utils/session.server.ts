@@ -100,3 +100,17 @@ export async function getUser(
     where: { id: userId },
   });
 }
+
+export async function requireUserId(
+  request: Request,
+  redirectTo: string = new URL(request.url).pathname
+): Promise<string> {
+  const userId = await getUserId(request);
+
+  if (!userId) {
+    let params = new URLSearchParams([["redirectTo", redirectTo]]);
+    throw redirect(`/login?${params}`);
+  }
+
+  return userId;
+}

@@ -1,10 +1,10 @@
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, useActionData, useTransition } from "@remix-run/react";
 
 import { db } from "~/utils/db.server";
 import { badRequest } from "~/utils/request.server";
-import { getUserId } from "~/utils/session.server";
+import { getUserId, requireUserId } from "~/utils/session.server";
 
 function validateJokeContent(content: string) {
   if (content.length < 10) {
@@ -56,6 +56,7 @@ export const action = async ({ request }: ActionArgs) => {
 
 export default function NewJoke() {
   const actionData = useActionData<typeof action>();
+  const transition = useTransition();
 
   return (
     <div>
@@ -110,27 +111,17 @@ export default function NewJoke() {
               {actionData.fieldErrors}
             </p>
           ) : null}
-          <button type="submit" className="button">
-            Add
+          <button
+            type="submit"
+            disabled={Boolean(transition.submission)}
+            className="button"
+          >
+            {transition.submission ? "Adding..." : "Add"}
           </button>
         </div>
       </Form>
     </div>
   );
-}
-
-export async function requireUserId(
-  request: Request,
-  redirectTo: string = new URL(request.url).pathname
-): Promise<string> {
-  const userId = await getUserId(request);
-
-  if (!userId) {
-    let params = new URLSearchParams([["redirectTo", redirectTo]]);
-    throw redirect(`/login?${params}`);
-  }
-
-  return userId;
 }
 
 export function ErrorBoundary() {
