@@ -4,7 +4,7 @@ module.exports = {
     "turbo",
     "prettier",
     // "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    // "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
   plugins: [
     "@typescript-eslint/",
@@ -22,5 +22,8 @@ module.exports = {
         varsIgnorePattern: "React",
       },
     ],
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
   },
 };
