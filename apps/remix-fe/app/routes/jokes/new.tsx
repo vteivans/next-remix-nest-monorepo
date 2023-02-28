@@ -1,10 +1,11 @@
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, useActionData, useTransition } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
+import { JokeDisplay } from "~/components/joke";
 
 import { db } from "~/utils/db.server";
 import { badRequest } from "~/utils/request.server";
-import { getUserId, requireUserId } from "~/utils/session.server";
+import { requireUserId } from "~/utils/session.server";
 
 function validateJokeContent(content: string) {
   if (content.length < 10) {
@@ -56,7 +57,31 @@ export const action = async ({ request }: ActionArgs) => {
 
 export default function NewJoke() {
   const actionData = useActionData<typeof action>();
-  const transition = useTransition();
+  const submission = useNavigation(); // Why use this instead of transition?
+  // According to Remix docs, this will be removed in V2 in favor or useNavigation
+  // const { submission } = useTransition(); // What's the difference?
+
+  if (submission) {
+    const jokeName = submission.formData?.get("name");
+    const jokeContent = submission.formData?.get("content");
+
+    if (
+      typeof jokeName === "string" &&
+      typeof jokeContent === "string" &&
+      validateJokeName(jokeName) &&
+      validateJokeContent(jokeContent)
+    ) {
+      return (
+        <JokeDisplay
+          joke={{
+            name: jokeName,
+            content: jokeContent,
+          }}
+          isOwner={false}
+        />
+      );
+    }
+  }
 
   return (
     <div>
@@ -113,10 +138,10 @@ export default function NewJoke() {
           ) : null}
           <button
             type="submit"
-            disabled={Boolean(transition.submission)}
+            disabled={Boolean(submission)}
             className="button"
           >
-            {transition.submission ? "Adding..." : "Add"}
+            {submission ? "Adding..." : "Add"}
           </button>
         </div>
       </Form>
