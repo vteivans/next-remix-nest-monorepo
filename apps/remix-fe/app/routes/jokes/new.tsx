@@ -1,6 +1,6 @@
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
+import { Form, useActionData } from "@remix-run/react";
 
 import { db } from "~/utils/db.server";
 import { badRequest } from "~/utils/request.server";
@@ -60,7 +60,7 @@ export default function NewJoke() {
   return (
     <div>
       <p>Add your own hilariouse joke</p>
-      <form method="post">
+      <Form method="post">
         <div>
           <label>
             Name:{" "}
@@ -114,7 +114,7 @@ export default function NewJoke() {
             Add
           </button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }
