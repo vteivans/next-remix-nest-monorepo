@@ -1,3 +1,11 @@
+# Todo:
+
+- [ ] Integrate NestJS with other apps
+- [ ] Try [ts-reset](https://github.com/total-typescript/ts-reset)
+- [ ] Validate requests/responses in Remix using ZOD
+- [ ] Validcate requests/responses in NestJS uzing ZOD
+- [ ] Investigate some other "backend" framework (maybe fastify with some DI container)
+
 # Turborepo starter
 
 This is an official pnpm starter turborepo.
