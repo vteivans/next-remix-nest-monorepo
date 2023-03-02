@@ -10,7 +10,10 @@ This turborepo uses [pnpm](https://pnpm.io) as a package manager. It includes th
 
 - `docs`: a [Next.js](https://nextjs.org/) app
 - `web`: another [Next.js](https://nextjs.org/) app
+- `remix-fe`: a [Remix](https://remix.run/) app with the [Jokes tutorial](https://remix.run/docs/en/main/tutorials/jokes)
+- `the-backend`: a bare bones [NestJS](https://nestjs.com/) app with vite. An example to how to connect Nestjs with shared lib in pnpm mono repo.
 - `ui`: a stub React component library shared by both `web` and `docs` applications
+- `api-client`: a sample shared TS library that can be loaded by NestJS
 - `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
