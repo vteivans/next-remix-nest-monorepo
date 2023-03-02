@@ -12,5 +12,8 @@
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "zod": "^3.20.6"
   }
 }

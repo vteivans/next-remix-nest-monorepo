@@ -8,7 +8,6 @@ export class AppController {
 
   @Get()
   getHello(): AppHelloResponse {
-    test('ka buim');
     return { data: this.appService.getHello() };
   }
 }
